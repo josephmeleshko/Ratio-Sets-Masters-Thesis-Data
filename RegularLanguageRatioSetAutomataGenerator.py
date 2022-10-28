@@ -161,6 +161,22 @@ def simplifiedAutomata(states, accepting, distanceToAccept):
     return newStates
 
 """
+Single function that generates the automata and then simplifies it and returns the simplified automata.
+
+Arguments:
+    p/q: rational p/q
+    base: integer base
+    delta_A(q_A, sigma_A) = q_A': transition function for machine M_A, takes state q_A and input sigma_A and returns q_A'
+    delta_B(q_B, sigma_B) = q_B': transition function for machine M_B, takes state q_B and input sigma_B and returns q_B'
+    F_A(q_A) = bool: returns true if q is an accepting state of M_A
+    F_B(q_B) = bool: returns true if q is an accepting state of M_B
+"""
+def generateSimpleAutomata(p, q, base, delta_A, delta_B, F_A, F_B):
+    automata = generateAutomata(p, q, base, delta_A, delta_B)
+    accepting, distanceToAccept, parents = pathScan(automata, F_A, F_B)
+    return simplifiedAutomata(automata, accepting, distanceToAccept)
+
+"""
 Front end to the complete algorithm. Builds the automata then finds the accepting input via BFS.
 Returns (a, b) such that a/b = p/q, a \in A, and b \in B.
 
