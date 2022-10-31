@@ -8,7 +8,10 @@ Typical rows is "p q a b" maybe with extra data afterward.
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-import RegularLanguageRatioSetAutomataGenerator as RLRSAG
+try:
+    import RegularLanguageRatioSetAutomataGenerator as RLRSAG
+except:
+    pass
 
 import pickle
 import math
@@ -108,9 +111,9 @@ def drawAutomata(states, layout=None):
             pos = nx.planar_layout(G)
         except:
             pos = nx.circular_layout(G)
-    nx.draw_networkx_nodes(G, pos)
+    nx.draw_networkx_nodes(G, pos, node_size=5000)
     nx.draw_networkx_labels(G, pos)
-    nx.draw_networkx_edges(G, pos)
+    nx.draw_networkx_edges(G, pos, node_size=5000)
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edges)
     plt.show()
 
@@ -131,6 +134,7 @@ def gaps(rows, resultColumn=3, onlyLargest=True):
             if currentRun > 0:
                 if currentRun > largestRun or not onlyLargest:
                     output.append((currentRun, runStart))
+                    largestRun = currentRun
                 currentRun = 0
     if currentRun > 0:
         output.append((currentRun, runStart))
@@ -175,6 +179,19 @@ def getColumn(rows, column):
     return [row[column] for row in rows]
 
 """
+Counts natural numbers of length i in base k that are accepted
+"""
+def countRepresentableByLength(rows, base, nColumn=0, resultColumn=3):
+    output = dict()
+    for row in rows:
+        if row[resultColumn] != -1:
+            i = math.floor(math.log(row[nColumn], base))
+            if i not in output:
+                output[i] = 0
+            output[i] = output[i] + 1
+    return output
+
+"""
 Converts a list of lists to a string that encodes a table in LaTeX.
 """
 def latexify(rows):
@@ -189,7 +206,10 @@ Converts an automata in a dictionary to a tikzpicture.
 """
 def tikzAutomata(automata):
     output = "\\begin{figure}\n    \\centering\n    \\begin{tikzpicture}\n"
-    states = sorted(automata.keys())
+    try:
+        states = sorted(automata.keys())
+    except:
+        states = automata.keys()
     for state in states:
         output = output + "        \\node[state] " + "(" + "-".join(map(str, state)) + ")" + " {$" + str(state) + "$};\n"
     output = output + "        \\draw\n"

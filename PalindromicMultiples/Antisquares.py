@@ -32,8 +32,6 @@ def antisquarecheck():
             if j % 100000 == 0:
                 print(i, "has no solution up to", j)
 
-antisquarecheck()
-
 def findAntipalindromicMultiple(n):
     k = 1
     while True:
@@ -86,6 +84,15 @@ def algo1(n, output=None):
             return (n, k, n*k, "algo1")
         k += 1
 """
+
+def algo1(n, output=None):
+    k = 1
+    while True:
+        if isAntisquare(k*n):
+            if output:
+                output.put((n, k, n*k, "algo1"))
+            return (n, k, n*k, "algo1")
+        k += 1
 
 """
 # Enumerate all palindromes k and check for the first one that is divisible by n.
@@ -451,12 +458,12 @@ if __name__ == "__main__":
                 outputFile.write(" ".join([str(s) for s in result]) + "\n")
                 outputFile.flush()
                 n += 1
-    if False:
+    if True:
         memory_limit(0.4)
         n = 3
-        with open("AntipalindromicMultiplesOutput.txt", "a") as outputFile: # n k nk algo
+        with open("AntisquareOutput.txt", "a") as outputFile: # n k nk algo
             while n < 10000000:
-                result = multiAlgoSearch(n)
+                result = algo1(n)
                 if result[0] == -1:
                     print(result)
                     break

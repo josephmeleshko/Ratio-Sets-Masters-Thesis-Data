@@ -45,9 +45,6 @@ def algo2(n, output=None):
 
 # DP Subset Sum
 # Potentially unstable for even n (might return something when nothing should be valid)
-# There's a way to improve this algorithm and reuse previous results
-# It basically just turns it into the algo4 automata BFS
-# When the length is upped by two you can just take the previous results and multiply by 2 and then add the next digit (first/last)
 def algo3(n, output=None):
     lenkn = n.bit_length()
     odd = lenkn % 2
@@ -100,7 +97,7 @@ def algo3(n, output=None):
 # Do BFS over implicitly built DFA.
 def algo4(n, output=None):
     # Setup tracking
-    global pathTo  # Is this required? Why did I do this?
+    global pathTo
     pathTo = dict()
     bfsQueue = deque()
     # Setup initial states
@@ -170,15 +167,15 @@ def get_memory():
     return free_memory
 
 if __name__ == "__main__":
-    if False:
+    if True:
         memory_limit(0.4)
-        n = 5
+        n = 1
         with open("PalindromicMultiplesOutput.txt", "a") as outputFile:
             while n < 10000000:
                 outputFile.write(" ".join([str(s) for s in multiAlgoSearch(n)]) + "\n")
                 outputFile.flush()
                 n += 2
-    if True:
+    if False:
         n = 3054503
         #print(algo1(n))
         #print(algo2(n))

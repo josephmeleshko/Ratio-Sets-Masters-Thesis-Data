@@ -33,13 +33,14 @@ KevinHareExpressions.append((re.compile("10(10)*((0[01]*)|1)"), (re.compile("(?=
 KevinHareExpressions.append((re.compile("10(10)*((0[01]*)|1)"), (re.compile("(?=(10(10)*11))"), 1)))
 
 def approx(n, epsilon=10**-5, verbose=False, iterations=math.inf, expressionList=KevinHareExpressions, orderedRules=False):
+    if not isinstance(n, int):
+        print("Deal with floats externally")
+        exit(1)
+
     if verbose:
         print()
         print("Started trying to approximate n =", n, "=", bin(n)[2:])
         print()
-    if not isinstance(n, int):
-        print("Deal with this case externally")
-        exit(1)
 
     # Get the valid locations to add
     expressions = []
@@ -142,7 +143,7 @@ def approx(n, epsilon=10**-5, verbose=False, iterations=math.inf, expressionList
     return (n, b, n*b)
 
 if __name__ == "__main__":
-    if 1:
+    if 0:
         # KevinHareExpressions.append((re.compile("11[01]*"), (re.compile("(?=(11((00)|(0$)|$)))"), 2)))
         # KevinHareExpressions.append((re.compile("11[01]*"), (re.compile("(?=(101))"), 1)))
         testExpressions1 = [*KevinHareExpressions]
@@ -155,16 +156,16 @@ if __name__ == "__main__":
         #testExpressions2.append((re.compile("11[01]*"), (re.compile("(?=(101))"), lambda x: 1)))
         #testExpressions2.append((re.compile("11[01]*010*"), (re.compile("(?=(101))"), lambda x: 1)))
 
-        print(approx(125, epsilon=0, verbose=True, iterations=10, expressionList=testExpressions1))
-        if 1:
+        #print(approx(125, epsilon=0, verbose=True, iterations=10, expressionList=testExpressions1))
+        if 0:
             data = dict()
-            lines = open("output.txt", "r").readlines()
+            lines = open("Fibbinary.txt", "r").readlines()
             for line in lines:
-                n, b, _ = map(int, line.split())
+                n, _, b, _ = map(int, line.split())
                 data[n] = b
             for i in range(10000):
                 if bin(i)[2:4] == "11":
-                    result = approx(i, epsilon=0, iterations=20, expressionList=testExpressions1)
+                    result = approx(i, epsilon=0, iterations=20, expressionList=KevinHareExpressions)
                     if "11" in bin(result[2])[2:] and data[i] != -1:
                         print("Didn't find at", i)
                         break
@@ -172,7 +173,9 @@ if __name__ == "__main__":
                         print("Data wrong at", i)
                         break
     if 0:
-        print(approx(201, epsilon=0, verbose=True, iterations=10))
+        print(approx(math.floor(((1 + 5 ** 0.5) / 2) * (2**10)), epsilon=10**(-10), verbose=True, iterations=10))
+    if 1:
+        approx(61, epsilon=10**(-10), verbose=True, iterations=20, expressionList=KevinHareExpressions)
     if 0:
         data = dict()
         lines = open("output.txt", "r").readlines()
