@@ -7,7 +7,7 @@ This program is used by many of the specific examples in the folders of the repo
 The folder Fibbinary contains code to decide inclusion in the ratio set $R(\texttt{FIB})$ as well as $R(\texttt{FIB}, \mathbb{N})$.
 It also includes code that finds approximations to a real number using elements of $R(\texttt{FIB})$.
 
-The folder PalindromicMultiples contains code to decide inclusion in the ratio sets $R(\texttt{PAL}_2, \N)$ and $R(\texttt{APAL}_2, \N)$.
+The folder PalindromicMultiples contains code to decide inclusion in the ratio sets $R(\texttt{PAL}_2, \mathbb{N})$ and $R(\texttt{APAL}_2, \mathbb{N})$.
 
 The folder StartingWithOne contains code to decide inclusion in the ratio sets $R(A_{k, 1})$.
 
